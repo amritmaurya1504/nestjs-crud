@@ -11,7 +11,7 @@ async function bootstrap() {
       'API documentation for the Todo Application built with NestJS. This API allows users to create, read, update, and delete tasks, manage user authentication, and more. It demonstrates the use of NestJS features such as validation, authentication, and Swagger integration.',
     )
     .setVersion('1.0')
-    .addTag('todos (Amrit Raj)', 'Endpoints related to managing todos')
+    .addTag('Todos (Author: Amrit Raj)', 'Endpoints related to managing todos')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
