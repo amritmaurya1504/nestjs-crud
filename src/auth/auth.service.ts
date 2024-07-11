@@ -1,4 +1,8 @@
-import { BadGatewayException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RegisterDTO } from './dto/register.dto';
 import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt';
@@ -7,8 +11,9 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly databaseService: DatabaseService, 
-    private readonly jwtService: JwtService
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async register(registerDTO: RegisterDTO) {
@@ -27,27 +32,28 @@ export class AuthService {
     return res;
   }
 
-  async login(loginDTO: LoginDTO){
-    
+  async login(loginDTO: LoginDTO) {
     const user = await this.databaseService.user.findFirst({
-      where : {
-        email : loginDTO.email
-      }
-    })
+      where: {
+        email: loginDTO.email,
+      },
+    });
 
-    if(!user){
-      throw new NotFoundException("User Not exist!");
+    if (!user) {
+      throw new NotFoundException('User Not exist!');
     }
 
-    const validatePassword = await bcrypt.compare(loginDTO.password, user.password);
-    
-    if(!validatePassword){
-      throw new NotFoundException("Invalid Credentials!");
+    const validatePassword = await bcrypt.compare(
+      loginDTO.password,
+      user.password,
+    );
+
+    if (!validatePassword) {
+      throw new NotFoundException('Invalid Credentials!');
     }
 
     return {
-        accessToken : this.jwtService.sign({email : loginDTO.email})
-    }
-
+      accessToken: this.jwtService.sign({ email: loginDTO.email }),
+    };
   }
 }
