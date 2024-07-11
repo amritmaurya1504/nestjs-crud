@@ -10,13 +10,19 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  @ApiOperation({description: 'To register a new user with email', summary: 'Register a user with details'})
+  @ApiOperation({
+    summary: 'Register a new user',
+    description: 'This endpoint allows a new user to register by providing their email, password, and other required details. The user will receive a confirmation email upon successful registration.'
+  })
   create(@Body() registerDTO: RegisterDTO) {
     return this.authService.register(registerDTO);
   }
 
   @Post('/login')
-  @ApiOperation({description: 'Login with email and password', summary: 'Endpoint to login with user email and password'})
+  @ApiOperation({
+    summary: 'User login',
+    description: 'This endpoint allows a user to login by providing their email and password. Upon successful authentication, a JWT token will be returned for subsequent requests.'
+  })
   login(@Body() loginDTO : LoginDTO) {
     return this.authService.login(loginDTO);
   }
